@@ -11,6 +11,31 @@ from .utils.permission import MyPremission
 #from rest_framework.versioning import URLPathVersioning
 
 from rest_framework.parsers import JSONParser, FormParser
+import json
+from .models import Role
+from rest_framework import serializers
+
+#要先写一个序列化的类
+class RoleSerializer(serializers.Serializer):
+    #Role表里面的字段 id 和title 序列化
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+
+class RolesView(APIView):
+   def get(self,request,*args,**kwargs):
+       # 方式一：对于[obj,obj,obj]
+       # （Queryset）
+       # roles = models.Role.objects.all()
+       # 序列化，两个参数，instance:Queryset  如果有多个值，就需要加 mangy=True
+       # ser = RolesSerializer(instance=roles,many=True)
+       # 转成json格式，ensure_ascii=False表示显示中文，默认为True
+       # ret = json.dumps(ser.data,ensure_ascii=False)
+
+       # 方式二：
+       role = models.Role.objects.all().first()
+       ser = RoleSerializer(instance=role, many=False)
+       ret = json.dumps(ser.data, ensure_ascii=False)
+       return HttpResponse(ret)
 
 class PaserView(APIView):
     parser_classes = [JSONParser, FormParser]
