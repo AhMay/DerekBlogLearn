@@ -10,6 +10,15 @@ from .utils.permission import MyPremission
 #from rest_framework.versioning import QueryParameterVersioning
 #from rest_framework.versioning import URLPathVersioning
 
+from rest_framework.parsers import JSONParser, FormParser
+
+class PaserView(APIView):
+    parser_classes = [JSONParser, FormParser]
+    def post(self, request,*args,**kwargs):
+        #获取解析后的结果
+        print(request.data)
+        return HttpResponse('paser')
+
 class UserView(APIView):
    # versioning_class = QueryParameterVersioning
     #versioning_class = URLPathVersioning
