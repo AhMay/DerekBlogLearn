@@ -14,8 +14,17 @@ class UserView(APIView):
    # versioning_class = QueryParameterVersioning
     #versioning_class = URLPathVersioning
     def get(self, request, *args,**kwargs):
+        # 获取版本
         print(request.version)
-        return HttpResponse("用户列表")
+        # 获取处理版本的对象
+        print(request.versioning_scheme)
+        # 获取浏览器访问的url，reverse反向解析
+        # 需要两个参数：viewname就是url中的别名，request=request是url中要传入的参数
+        # (?P<version>[v1|v2]+)/users/，这里本来需要传version的参数，但是version包含在request里面（源码里面可以看到），所有只需要request=request就可以
+        url_path = request.versioning_scheme.reverse(viewname='api_user', request=request)
+        print(url_path)
+        # self.dispatch
+        return HttpResponse('用户列表')
 
 ORDER_DICT = {
     1:{
