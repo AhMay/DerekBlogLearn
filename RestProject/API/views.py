@@ -7,10 +7,12 @@ from rest_framework import exceptions
 from rest_framework.authentication import BasicAuthentication
 
 from .utils.permission import MyPremission
-from rest_framework.versioning import QueryParameterVersioning
+#from rest_framework.versioning import QueryParameterVersioning
+from rest_framework.versioning import URLPathVersioning
 
 class UserView(APIView):
-    versioning_class = QueryParameterVersioning
+   # versioning_class = QueryParameterVersioning
+    versioning_class = URLPathVersioning
     def get(self, request, *args,**kwargs):
         print(request.version)
         return HttpResponse("用户列表")
