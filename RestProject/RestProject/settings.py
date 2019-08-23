@@ -73,10 +73,11 @@ TEMPLATES = [
 REST_FRAMEWORK = {
    # "DEFAULT_AUTHENTICATION_CLASSES":['API.utils.auth.Authentication',],   #里面写你的认证的类的路径
  #   "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.SVIPPremission',],
-    "DEFAULT_THROTTLE_CLASSES":['API.utils.throttle.VisitThrottle'],
-    "DEFAULT_VERSION": 'v1',  # 默认的版本
-    "ALLOWED_VERSIONS": ['v1', 'v2'],  # 允许的版本
-    "VERSION_PARAM": 'version'  # GET方式url中参数的名字  ?version=xxx
+ #   "DEFAULT_THROTTLE_CLASSES":['API.utils.throttle.VisitThrottle'],
+ #   "DEFAULT_VERSION": 'v1',  # 默认的版本
+ #   "ALLOWED_VERSIONS": ['v1', 'v2'],  # 允许的版本
+ #   "VERSION_PARAM": 'version'  # GET方式url中参数的名字  ?version=xxx
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
 }
 
 WSGI_APPLICATION = 'RestProject.wsgi.application'
