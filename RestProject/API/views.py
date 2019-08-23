@@ -7,6 +7,13 @@ from rest_framework import exceptions
 from rest_framework.authentication import BasicAuthentication
 
 from .utils.permission import MyPremission
+from rest_framework.versioning import QueryParameterVersioning
+
+class UserView(APIView):
+    versioning_class = QueryParameterVersioning
+    def get(self, request, *args,**kwargs):
+        print(request.version)
+        return HttpResponse("用户列表")
 
 ORDER_DICT = {
     1:{

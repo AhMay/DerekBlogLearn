@@ -11,7 +11,7 @@ class UserInfo(models.Model):
     user_type = models.IntegerField(choices=USER_TYPE)
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=64)
-    group = models.ForeignKey('UserGroup', on_delete=models.CASCADE)
+    group = models.ForeignKey('UserGroup', on_delete=models.CASCADE, null=True, blank=True)
     roles = models.ManyToManyField('Role')
 
 class UserToken(models.Model):
