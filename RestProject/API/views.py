@@ -15,6 +15,64 @@ import json
 from .models import Role
 from rest_framework import serializers
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserGroup
+        fields = "__all__"
+
+class GroupView(APIView):
+    def get(self,request,*args,**kwargs):
+        pk = kwargs.get('pk')
+        obj = models.UserGroup.objects.filter(pk=pk).first()
+
+        ser = GroupSerializer(instance=obj,many=False)
+        ret = json.dumps(ser.data,ensure_ascii=False)
+        return HttpResponse(ret)
+
+'''
+class UserInfoSerializer(serializers.Serializer):
+    #序列化用户的信息
+    type = serializers.CharField(source="get_user_type_display")
+    username = serializers.CharField()
+    password = serializers.CharField()
+    group = serializers.CharField(source="group.title")
+    rls = serializers.SerializerMethodField() #然后写一个自定义的方法
+
+    def get_rls(self,row):
+        role_obj_list = row.roles.all() #获取用户所有的角色
+        ret = []
+        for item in role_obj_list: #获取角色的id和名字，以字典的建值对形式显示
+            ret.append({"id":item.id,"title": item.title})
+        return ret
+'''
+class UserInfoSerializer(serializers.ModelSerializer):
+   # type = serializers.CharField(source="get_user_type_display")
+   # group = serializers.CharField(source="group.title")
+  #  rls = serializers.SerializerMethodField()
+    # def get_rls(self, row):
+    #     # 获取用户所有的角色
+    #     role_obj_list = row.roles.all()
+    #     ret = []
+    #     # 获取角色的id和名字
+    #     # 以字典的键值对方式显示
+    #     for item in role_obj_list:
+    #         ret.append({"id": item.id, "title": item.title})
+    #     return ret
+    group = serializers.HyperlinkedIdentityField(view_name='gp', lookup_field='group_id', lookup_url_kwarg='pk')
+    class Meta:
+        model = models.UserInfo
+        fields = ['id','username','password','group','roles']
+        depth = 0 #表示连表的深度
+
+class UserInfoView(APIView):
+    '''用户信息'''
+    def get(self, request, *args, **kwargs):
+        users = models.UserInfo.objects.all()
+        # 这里必须要传参数context={'request':request}
+        ser = UserInfoSerializer(instance=users,many=True, context={'request':request})
+        ret = json.dumps(ser.data, ensure_ascii=False)
+        return  HttpResponse(ret)
+
 #要先写一个序列化的类
 class RoleSerializer(serializers.Serializer):
     #Role表里面的字段 id 和title 序列化
@@ -120,12 +178,12 @@ class OrderView(APIView):
             pass
         return JsonResponse(ret)
 
+'''
 class UserInfoView(APIView):
-    '''
-       订单相关业务(普通用户和VIP用户可以看)
-       '''
+     #  订单相关业务(普通用户和VIP用户可以看)
     permission_classes = [MyPremission,]    #不用全局的权限配置的话，这里就要写自己的局部权限
     def get(self,request,*args,**kwargs):
 
         print(request.user)
         return HttpResponse('用户信息')
+'''
