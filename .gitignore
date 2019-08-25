@@ -12,6 +12,9 @@ RestProject/API/__pycache__/urls.cpython-37.pyc
 RestProject/API/migrations/__pycache__/0002_auto_20190823_0804.cpython-37.pyc
 RestProject/API/migrations/__pycache__/0003_auto_20190823_0805.cpython-37.pyc
 RestProject/API/utils/__pycache__/serializsers.cpython-37.pyc
+mysite_login/login/__init__.py
+mysite_login/login/__pycache__/
+mysite_login/login/migrations/
 
 
 
