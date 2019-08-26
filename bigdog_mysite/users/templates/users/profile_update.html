@@ -1,0 +1,37 @@
+{% extends 'users/base.html' %}
+
+ <title>{% block title %}Profile 页面{% endblock %}</title>
+ {% block content %}
+    <h1>Profile页面</h1>
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+             <form class="form-login" action="{% url 'users:profile_update' request.user.id %}" method="post">
+                {% if message %}
+                    <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+                 {% csrf_token %}
+                <h1>欢迎编辑!</h1>
+                  <div class="form-group">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                  </div>
+                 <div class="form-group">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                  </div>
+                 <div class="form-group">
+                    {{ form.org.label_tag }}
+                    {{ form.org }}
+                  </div>
+                 <div class="form-group">
+                    {{ form.telephone.label_tag }}
+                    {{ form.telephone }}
+                  </div>
+                 <button type="reset" class="btn btn-default pull-left">重置</button>
+                 <button type="submit" class="btn btn-primary pull-right">提交</button>
+             </form>
+        </div>
+         <a href="{% url 'users:logout' %}">Logout</a> |
+      <a href="{% url 'users:pwd_change' user.id %}">Password change</a>
+    </div>
+ {% endblock %}
