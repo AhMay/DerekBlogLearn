@@ -1,0 +1,73 @@
+{% extends 'blog/base.html' %}
+{% block title %}博客首页{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+            {% for entry in entry_list %}
+                <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a> </h2><br>
+                {% if entry.img %}
+                    <img src="{{ entry.img.url }}" width="60%" height="270px" />
+                {% endif %}
+                {% if entry.abstract %}
+                    <p>摘要：{{ entry.abstract }}</p>
+                {% else %}
+                    <p>摘要：{{ entry.body|truncatechars:180 }}</p>
+                {% endif %}
+                <p>
+                    <span>posted @ {{ entry.created_time}}  {{entry.author}} 阅读({{ entry.visiting }})</span>
+                </p>
+                <hr/>
+            {% endfor %}
+        </div>
+            <div class="col-md-3">
+             {% include 'blog/right_side_bar.html' %}
+            </div>
+        </div>
+        <!--/.pagination -->
+        <div id="paginator" class="pull-right">
+            <ul class="pagination">
+                    <li><span>共 {{ paginator.num_pages }} 页</span></li>
+                    {% if entry_list.has_previous %}
+                        <li>
+                            <a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{ entry_list.previous_page_number }}">
+                                <i class="glyphicon glyphicon-chevron-left">前一页</i>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if first %}
+                    <li><a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page=1">1</a></li>
+                    {% endif %}
+
+                    {% if left %}
+                        {% if left_has_more %}
+                            <span>...</span>
+                        {% endif %}
+                        {% for i in left %}
+                            <li><a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{i}}">{{i}}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                    <li class="active"><a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{entry_list.number}}">{{entry_list.number}}</a></li>
+                    {% if right %}
+                         {% for i in left %}
+                            <li><a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{i}}">{{i}}</a></li>
+                        {% endfor %}
+                        {% if left_has_more %}
+                            <span>...</span>
+                        {% endif %}
+                    {% endif %}
+                    {% if last %}
+                        <li><a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{ entry_list.num_pages }}">{{entry_list.num_pages}}</a></li>
+                    {% endif %}
+                    {% if entry_list.has_next %}
+                        <li>
+                            <a href="?{% if keyword %}keyword={{keyword}}&{% endif %}page={{ entry_list.next_page_number }}">
+                                <i class="glyphicon glyphicon-chevron-right">下一页</i>
+                            </a>
+                        </li>
+                    {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
