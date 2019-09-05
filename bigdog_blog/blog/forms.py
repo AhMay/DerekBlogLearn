@@ -4,7 +4,7 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        exclude =['author','views','slug','pub_date','create_date','mod_date']
+        exclude =['author','views','slug','pub_date','create_date','mod_date','users_like']
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control'}),
            # 'body': forms.Textarea(attrs={'class':'form-control'}),
