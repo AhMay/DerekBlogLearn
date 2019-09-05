@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h3>所有文章类别</h3>
+    <ul>
+        {% for category in topping %}
+            {% include 'blog/category_tree.html' %}
+        {% endfor %}
+    </ul>
+{% endblock %}

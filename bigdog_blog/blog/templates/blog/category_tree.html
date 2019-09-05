@@ -1,0 +1,14 @@
+<li>
+    <a href="{% url 'blog:category_detail' category.id category.slug %}">
+        {{category.name}}
+    </a>
+    {%if category.has_child %}
+        <ul>
+         {%for ch in category.category_set.all %}
+              {%with category=ch template_name="blog/category_tree.html" %}
+                   {%include template_name%}
+              {%endwith%}
+         {%endfor%}
+         </ul>
+    {%endif%}
+</li>

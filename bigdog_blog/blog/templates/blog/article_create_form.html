@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+ {% block css %}
+    <link rel="stylesheet" href="{% static 'blog/bootstrap3/css/bootstrap-select.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h3>添加新文章</h3>
+    {% include 'blog/article_form.html' %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'blog/bootstrap3/js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'blog/bootstrap3/js/defaults-zh_CN.js' %}"></script>
+    <script>
+        $('.selectpicker').selectpicker({
+            deselectAllText: '全不选',
+            selectAllText: '全选',
+            actionsBox: true, //在下拉选项添加选中所有和取消选中的按钮
+         });
+    </script>
+{% endblock %}

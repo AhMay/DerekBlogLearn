@@ -1,0 +1,11 @@
+<form action="{% url 'blog:article_search' %}" role="search" method="get">
+    {% csrf_token %}
+    <div class="input-group col-md-12">
+        <input type="text" name="q" class="form-control" placeholder="搜索文章">
+        <span class="input-group-btn">
+            <button class="btn btn-default form-control" type="submit" value="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+</form>
