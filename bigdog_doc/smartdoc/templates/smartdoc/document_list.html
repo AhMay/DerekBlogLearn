@@ -1,0 +1,54 @@
+{% extends 'smartdoc/base.html' %}
+
+{% block content %}
+    <h2>全部文档列表</h2>
+    {% if document_list %}
+        <table class="table table-striped">
+            <thead>
+                <th>
+                    <td>标题</td>
+                    <td>产品</td>
+                    <td>类别</td>
+                    <td>格式</td>
+                    <td>大小</td>
+                    <td>修改日期</td>
+                    <td>版本</td>
+                    <td>查看</td>
+                    <td>下载</td>
+                </th>
+            </thead>
+            <tbody>
+                {% for document in document_list %}
+                    <tr>
+                        <td>{{document.title}}</td>
+                        <td>{{document.product.name}}</td>
+                        <td>{{document.category.name}}</td>
+                        <td>{{document.get_format}}</td>
+                         <td>{{document.doc_file.size|filesizeformat }}</td>
+                        <td>{{document.mod_date |date:'Y-m-d'}}</td>
+                        <td>{{document.version_no }}</td>
+                        <td><a href="{% url 'smartdoc:document_detail' document.product.id document.id %}">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a></td>
+                        <td><a href="{{ document.doc_file.url }}"><span class="glyphicon glyphicon-download"></span></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>还没有任何文档</p>
+    {% endif %}
+
+ {% if request.user.is_authenticated %}
+<p><span class="glyphicon glyphicon-plus"></span>请先<a href="{% url 'smartdoc:product_list' %}">选择产品</a>再上传文档。</p>
+ {% else %}
+
+<p>请<a href="{% url 'account_login' %}?next={% url 'smartdoc:product_list' %}">登录</a>后先创建或选择产品后，再上传文档。</p>
+  {% endif %}
+
+
+<p><a href="{% url 'smartdoc:product_list' %}">查看全部产品</a> | <a href="{% url 'smartdoc:category_list' %}">查看全部类别</a>
+| <a href="{% url 'smartdoc:document_list' %}">查看全部文档</a>
+</p>
+
+{% endblock %}
