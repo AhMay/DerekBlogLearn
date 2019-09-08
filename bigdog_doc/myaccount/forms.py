@@ -13,3 +13,6 @@ class SignupForm(forms.Form):
         user_profile.user = user
         user.save()
         user_profile.save()
+
+class AvatarUploadForm(forms.Form):
+    avatar_file = forms.ImageField()

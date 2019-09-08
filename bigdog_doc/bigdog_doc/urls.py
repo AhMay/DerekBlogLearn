@@ -24,8 +24,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('myaccount.urls')),
     path('smartdoc/', include('smartdoc.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static( settings.STATIC_URL,
-    document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #+ static( settings.STATIC_URL,
+   # document_root=settings.STATIC_ROOT)
 
 from smartdoc import views
 
