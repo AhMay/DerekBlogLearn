@@ -11,7 +11,7 @@ def user_image_path(instance, filename):
     ext = filename.split('.')[-1]
     if ext.lower() not in ['jpg','png','gif']:
         raise NameError("image must be jpg, png or gif")
-    filename = '{}.{}'.format(uuid.uuid4().hex()[:10],ext)
+    filename = '{}.{}'.format(uuid.uuid4().hex[:10],ext)
 
     if isinstance(instance, UserProfile):
         return os.path.join('users','avatar',instance.username,filename) # media/users/avatar/2/filename
@@ -42,11 +42,12 @@ class EmailVerifyRecord(models.Model):
     send_choices =(
         ('register', '注册'),
         ('forget', '找回密码'),
+        ('update_email', '修改邮箱'),
     )
 
     code = models.CharField('验证码', max_length=20)
     email = models.EmailField('邮箱', max_length=50)
-    send_type = models.CharField(choices=send_choices, max_length=10)
+    send_type = models.CharField(choices=send_choices, max_length=20)
     send_time = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:

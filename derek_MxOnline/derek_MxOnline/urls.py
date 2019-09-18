@@ -21,14 +21,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.views.generic import TemplateView
-from users.views import user_login, logout, register,forget_pwd
+from users.views import LoginView,ActiveUserView,ForgetPwdView,ResetView,logout, RegisterView,ModifyPwdView
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
-    path('users/', include('users.urls')),
-    path('logout/',logout, name='logout'),
-    path('login/', user_login, name='login'),
-    path('register/', register, name='register'),
-    path('forget_pwd/', forget_pwd, name='forget_pwd'),
+    path('captcha/', include('captcha.urls')),
+    path('', include('users.urls')),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'xadmin',
     'crispy_forms',
+    'captcha',
 ]
 
 AUTH_USER_MODEL = 'users.UserProfile'
@@ -131,6 +132,15 @@ USE_L10N = True
 
 USE_TZ = False
 
+
+#邮箱设定
+EMAIL_HOST ='smtp.qq.com'
+EMAIL_PORT =25
+EMAIL_HOST_USER ='348143183@qq.com'
+EMAIL_HOST_PASSWORD  ='rrhirtqqtihmbgdj'
+EMAIL_USE_TLS =True
+EMAIL_FROM  ='348143183@qq.com'
+DEFAULT_FROM_EMAIL='348143183@qq.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
