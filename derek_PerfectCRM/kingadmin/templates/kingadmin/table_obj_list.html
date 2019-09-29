@@ -1,0 +1,59 @@
+{% extends 'kingadmin/index.html' %}
+{% load kingadmin_tags %}
+{% block right-content-container %}
+    <h2 class="page-header">app</h2>
+     <form action="">
+            <input type="search" name="_q" placeholder="{% for s in admin_class.search_fields %} {{s}},{% endfor %}">
+            <input type="submit" value="Search">
+            {% for k, v in admin_class.filter_conditions.items %}
+                <input type="hidden" name="{{k}}" value="{{v}}" >
+            {% endfor %}
+        </form>
+    <div class="row">
+        {% if admin_class.list_filter %}
+        <form>
+            {% for filter_column in admin_class.list_filter %}
+                {% build_filter_ele filter_column admin_class %}
+            {% endfor %}
+            <input type="hidden" name="_o" value="{% get_current_sorted_column_index sorted_column %}" >
+            <input style="margin-top: 20px;padding:6px;" class="btn btn-success" type="submit" value="过滤">
+        </form>
+        {% endif %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    {% if admin_class.list_display %}
+                        {% for column in admin_class.list_display %}
+                        <th>
+                            <a href="?_o={% get_sorted_column column sorted_column forloop.counter0 %}{% render_filtered_args admin_class %}">
+                            {{ column }}{% render_sorted_arrow column sorted_column %}
+                            </a>
+                        </th>
+                        {% endfor %}
+                    {% else %}
+                        <th>{% get_model_name admin_class %}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in querysets %}
+                    <tr>{% build_table_row obj admin_class %}</tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% render_paginator querysets admin_class sorted_column %}
+            <span class="step-links">
+                {% if querysets.has_previous %}
+                    <a href="?page={{ querysets.previous_page_number }}">previous</a>
+                {% endif %}
+            </span>
+             <span class="current">
+                    Page {{querysets.number }} of {{ querysets.paginator.num_pages }}.
+             </span>
+            {% if querysets.has_next %}
+                <a href="?page={{querysets.next_page_number}}">next</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
